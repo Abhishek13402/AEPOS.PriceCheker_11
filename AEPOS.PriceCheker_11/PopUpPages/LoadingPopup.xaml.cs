@@ -1,6 +1,6 @@
 namespace AEPOS.PriceChecker_11.PopUpPages;
 
-public partial class LoadingPopup : ContentPage
+public partial class LoadingPopup : ContentView
 {
     public LoadingPopup()
     {

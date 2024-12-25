@@ -38,11 +38,6 @@ public partial class LoginPage : ContentPage
     {
 #if ANDROID
     Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
-#elif IOS
-		// iOS does not allow programmatically closing the app.
-		System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
-#else
-        System.Environment.Exit(0);
 #endif
     }
 

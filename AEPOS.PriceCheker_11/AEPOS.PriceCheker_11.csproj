@@ -39,8 +39,16 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <!--<AndroidPackageFormat>apk</AndroidPackageFormat>
 	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <PublishTrimmed>False</PublishTrimmed>-->
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+		<AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+		<PublishTrimmed>False</PublishTrimmed>
+		<AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<AndroidKeyStore>False</AndroidKeyStore>
 	</PropertyGroup>
 
 	<ItemGroup>
