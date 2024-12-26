@@ -1,7 +1,6 @@
 using AEPOS.DAO;
 using AEPOS.Model;
-using AEPOS.PriceChecker_11;
-using AEPOS.PriceChecker_11.DAO;
+using AEPOS.PriceCheker_11;
 using Sypram.Common;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -13,7 +12,6 @@ public partial class HomePage : ContentPage
 {
 	public ObservableCollection<SearchFilter> Items { get; set; } = new ObservableCollection<SearchFilter>();
 	NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-
 	private System.Timers.Timer _eventTimer;
 	private const int TimerDuration = 15000; // 15 seconds in milliseconds
 
@@ -22,10 +20,8 @@ public partial class HomePage : ContentPage
 		CheckInternetAndExit();
 		InitializeComponent();
 		InitializeTimer();
-
 		Loaded += MainPage_Loaded;
 		SearchEntry.Completed += OnBarcodeScanned;
-
 		storename.Text = Globals.StoreName;
 		listSection.IsVisible = false;
 		detailSection.IsVisible = false;
@@ -39,8 +35,6 @@ public partial class HomePage : ContentPage
 	bool isCapsLock_Enable = false;
 	bool isShift_Pressed = false;
 	string cutText;
-	private int _cursorPosition = 0;
-	//private bool isKeyboardVisible = false;
 	public bool isbarcodescan = false;
 	private void MainPage_Loaded(object sender, EventArgs e)
 	{
@@ -83,7 +77,6 @@ public partial class HomePage : ContentPage
 					introSection.IsVisible = true;
 				}
 				SearchEntry.Focus();
-				//DisplayAlert("Timeout", "No activity detected for 15 seconds.", "OK");
 			});
 		}
 		catch (Exception ex)
@@ -102,7 +95,7 @@ public partial class HomePage : ContentPage
 				bool status = await DisplayAlert("Internet is Required!!", "Please Check your Internet", "Exit", "cancel");
 				if (status)
 				{
-					CloseApp(); // Close the application
+					CloseApp();
 				}
 				return;
 			}
@@ -267,7 +260,7 @@ public partial class HomePage : ContentPage
 			SearchItemBySKU(scannedData);
 			//btnSearch_Clicked(scannedData);
 			SearchEntry.Text = string.Empty;
-			RestartTimer(); // Reset the timer
+			RestartTimer();
 		}
 		catch (Exception ex)
 		{
@@ -286,8 +279,7 @@ public partial class HomePage : ContentPage
 				SearchItemBySKU(selectedSKU.ToString());
 				//btnSearch_Clicked(selectedUPC);
 				KeyboardLayout.IsVisible = false;
-				//isKeyboardVisible = false;
-				RestartTimer(); // Reset the timer
+				RestartTimer();
 			}
 		}
 		catch (Exception ex)
@@ -345,7 +337,6 @@ public partial class HomePage : ContentPage
 			topright_btn = false;
 			bottomright_btn = false;
 			bottomleft_btn = false;
-			//if (isKeyboardVisible)
 			if (KeyboardLayout.IsVisible == true)
 			{
 				introSection.IsVisible = false;
@@ -384,15 +375,11 @@ public partial class HomePage : ContentPage
 			listSection.IsVisible = false;
 		}
 		introSection.IsVisible = false;
-		//isKeyboardVisible = !isKeyboardVisible;
-		//KeyboardLayout.IsVisible = isKeyboardVisible;
 		KeyboardLayout.IsVisible = true;
 		RefreshButton_Clicked(sender, e);
 	}
 	private void HomeBtnCloseKeyboard(object sender, EventArgs e)
 	{
-		//isKeyboardVisible = !isKeyboardVisible;
-		//KeyboardLayout.IsVisible = isKeyboardVisible;
 		KeyboardLayout.IsVisible = false;
 		SearchEntry.Focus();
 		RefreshButton_Clicked(sender, e);
@@ -429,7 +416,6 @@ public partial class HomePage : ContentPage
 		{
 			btnCaps.BorderColor = Colors.Black;
 			btnCaps.BorderWidth = 0;
-
 			isCapsLock_Enable = false;
 			LetA.Text = "a";
 			LetB.Text = "b";
@@ -506,11 +492,8 @@ public partial class HomePage : ContentPage
 				{
 					KeyText = button.Text.ToLower();
 				}
-
 				SearchEntry.Focus();
 				InsertTextAtCursor(KeyText);
-
-
 			}
 		}
 		catch (Exception ex)
@@ -524,12 +507,10 @@ public partial class HomePage : ContentPage
 		{
 			int cursorPosition = SearchEntry.CursorPosition;
 			string currentText = SearchEntry.Text;
-
 			if (currentText == null)
 			{
 				currentText = string.Empty;
 			}
-
 			string newText = currentText.Insert(cursorPosition, text);
 			SearchEntry.Text = newText;
 			SearchEntry.CursorPosition = cursorPosition + text.Length;
@@ -555,10 +536,8 @@ public partial class HomePage : ContentPage
 	}
 	private void OnKeyShift(object sender, EventArgs e)
 	{
-
 		if (isShift_Pressed == true)
 		{
-
 			btnShift.BorderColor = Colors.Black;
 			btnShift.BorderWidth = 0;
 			isShift_Pressed = false;
@@ -575,7 +554,6 @@ public partial class HomePage : ContentPage
 		}
 		else
 		{
-
 			btnShift.BorderColor = Colors.Black;
 			btnShift.BorderWidth = 2;
 			isShift_Pressed = true;
@@ -621,8 +599,7 @@ public partial class HomePage : ContentPage
 				introSection.IsVisible = true;
 			}
 			//DisplayAlert("Alert!!", "Item Not Found", "OK");
-			RestartTimer(); // Reset the timer
-
+			RestartTimer(); 
 		}
 	}
 	#endregion
@@ -634,7 +611,7 @@ public partial class HomePage : ContentPage
 		{
 			if (topleft_btn.Equals(true) && topright_btn.Equals(true) && bottomleft_btn.Equals(true) && bottomright_btn.Equals(true))
 			{
-				//await App.cacheDataRepo.RemoveStoreData();
+				await App.cacheDataRepo.RemoveStoreData();
 				Navigation.PopAsync();
 			}
 		}
@@ -693,7 +670,10 @@ public partial class HomePage : ContentPage
 	}
 	#endregion
 
+
 	//-----------------------------------------------------------------------------------------------
+	
+	#region methods
 	public class SearchFilter
 	{
 		public string label { get; set; }
@@ -718,36 +698,30 @@ public partial class HomePage : ContentPage
 			loadingpopup.Hide();
 
 			#region Set up Values
-
 			SetupValue_dal Setup_dal = new SetupValue_dal(_DbMgr, true);
 			OptionConfigValue _SvValue = Setup_dal.SetupOptionValue;
 			int nRes = -1;
 			bool DoNotSearchItemBySKU = false;
-
 			nRes = Setup_dal.GetSetupOption(StoreID, "EXTENDEDSEARCH");
 			if (nRes == 1)
 			{
 				ExtendedSearch = _SvValue.numValue == 1 ? true : false;
 			}
-
 			nRes = Setup_dal.GetSetupOption(StoreID, "UPC_ETOA");
 			if (nRes == 1)
 			{
 				UPC_EToA = _SvValue.numValue == 1 ? true : false;
 			}
-
 			nRes = Setup_dal.GetSetupOption(StoreID, "NONPLUFLAG");
 			if (nRes == 1)
 			{
 				NonPLUFlag = _SvValue.strValue;
 			}
-
 			nRes = Setup_dal.GetSetupOption(StoreID, "DATEFORMAT");
 			if (nRes == 1)
 			{
 				DateMask = _SvValue.strValue;
 			}
-
 			nRes = Setup_dal.GetSetupOption(StoreID, "DATEFONOSEARCHBYSKURMAT");
 			if (nRes == 1)
 			{
@@ -813,7 +787,6 @@ public partial class HomePage : ContentPage
 			nRes = Setup_dal.GetSetupOption(StoreID, "CURRSYMBOL");
 			if (nRes == 1)
 			{ CurrencySymbol = _SvValue.strValue; }
-
 
 			CurrencySymbol1.Text = CurrencySymbol;
 			//CurrencySymbol2.Text = CurrencySymbol;
@@ -1094,7 +1067,6 @@ public partial class HomePage : ContentPage
 			TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 			List<SearchFilter> lstFilterResult = new List<SearchFilter>();
 
-
 			ModelGlobals.STORENUM = 0;
 			ModelGlobals.ZONEID = 1;
 			ModelGlobals.ZONENUM = 0;
@@ -1156,4 +1128,6 @@ public partial class HomePage : ContentPage
 				_DbMgr.CloseConnection();
 		}
 	}
+	#endregion
+
 }

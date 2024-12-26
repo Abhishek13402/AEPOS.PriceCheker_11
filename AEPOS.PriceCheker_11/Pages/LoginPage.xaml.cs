@@ -19,7 +19,6 @@ public partial class LoginPage : ContentPage
     bool isCapsLock_Enable = false;
     bool isShift_Pressed = false;
     string cutText;
-    private int _cursorPosition = 0;
     private bool isLoginKeyboardVisible = false;
     NetworkAccess accessType = Connectivity.Current.NetworkAccess;
     public async void CheckInternetAndExit()
@@ -47,16 +46,13 @@ public partial class LoginPage : ContentPage
         {
             try
             {
-
                 loadingPage.IsVisible = true;
                 mainLoginPage.IsVisible = false;
-
                 List<StoreInfo> lststore = await App.cacheDataRepo.ExecuteSelectQueryAsync<StoreInfo>("SELECT * FROM STOREINFO");
-
+                
                 if (lststore.Count > 0 && !string.IsNullOrEmpty(lststore[0].ConnectionString))
                 {
                     Globals.SetServer_ConnStr = lststore[0].ConnectionString;
-
                     Globals.GUID = lststore[0].StoreGUID;
                     Globals.StoreName = lststore[0].StoreName;
                     Globals.Store_ID = lststore[0].StoreID;
@@ -79,7 +75,6 @@ public partial class LoginPage : ContentPage
                     //GuIdPopUp.IsOpen = true;
                     loadingPage.IsVisible = false;
                     mainLoginPage.IsVisible = true;
-
                     return;
                 }
             }
@@ -87,7 +82,6 @@ public partial class LoginPage : ContentPage
             {
                 loadingPage.IsVisible = false;
                 mainLoginPage.IsVisible = true;
-
                 await DisplayAlert("Error!", $"{ex.Message}", "OK");
             }
         }
@@ -101,11 +95,10 @@ public partial class LoginPage : ContentPage
     {
         try
         {
-            loadingpopup.Show(); // Show the loading popup
+            loadingpopup.Show();
             if (Globals.IsServerConnected == true)
             {
                 #region Load Store Record
-
                 STORE_DAL St_dal = new STORE_DAL(Globals.DBServer, true);
                 if (!St_dal.LoadFirstStoreRecord())
                 {
@@ -113,7 +106,6 @@ public partial class LoginPage : ContentPage
                     await DisplayAlert("Error!", "Error in Loading store Data: " + St_dal.GetErrorMsg(), "OK");
                     return false;
                 }
-
                 Globals.StoreREC = St_dal.StoreRecord;
                 Globals.StoreName = St_dal.StoreRecord.StoreName;
                 Globals.Store_ID = St_dal.StoreRecord.StoreID;
@@ -193,7 +185,7 @@ public partial class LoginPage : ContentPage
             if (await Globals.GetConnectionString(guId) == false)
             {
                 await DisplayAlert("Failed !", "Invalid GUID.", "ok");
-                loadingpopup.Hide(); // Hide loading popup if the connection fails
+                loadingpopup.Hide();
                 return;
             }
             entryGUID.Text = "";
@@ -201,7 +193,7 @@ public partial class LoginPage : ContentPage
             if (await LoadingData() == false)
             {
                 Application.Current.Quit();
-                loadingpopup.Hide(); // Hide loading popup if an error occurs
+                loadingpopup.Hide();
                 return;
             }
             await Navigation.PushAsync(new HomePage());
@@ -223,7 +215,6 @@ public partial class LoginPage : ContentPage
         {
             isLoginKeyboardVisible = !isLoginKeyboardVisible;
             Login_KeyboardLayout.IsVisible = isLoginKeyboardVisible;
-            //entryGUID.Text = string.Empty;
         }
         catch (Exception ex)
         {
@@ -361,11 +352,8 @@ public partial class LoginPage : ContentPage
                 {
                     KeyText = button.Text.ToLower();
                 }
-
                 entryGUID.Focus();
                 InsertTextAtCursor(KeyText);
-
-
             }
         }
         catch (Exception ex)
@@ -384,7 +372,6 @@ public partial class LoginPage : ContentPage
             {
                 currentText = string.Empty;
             }
-
             string newText = currentText.Insert(cursorPosition, text);
             entryGUID.Text = newText;
             entryGUID.CursorPosition = cursorPosition + text.Length;
@@ -452,7 +439,6 @@ public partial class LoginPage : ContentPage
             }
             else
             {
-
                 btnShift.BorderColor = Colors.Black;
                 btnShift.BorderWidth = 2;
                 isShift_Pressed = true;

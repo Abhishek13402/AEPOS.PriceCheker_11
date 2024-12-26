@@ -397,26 +397,26 @@
             </VerticalStackLayout>
 
             <Frame Grid.Row="2" Grid.Column="0"
-BorderColor="{StaticResource _red}" 
-Rotation="-140"
-CornerRadius="0"
-Margin="-200,0,-150,-150"
-HeightRequest="200"
-Padding="0"
-WidthRequest="300"
-BackgroundColor="{StaticResource _red}">
+                BorderColor="{StaticResource _red}" 
+                Rotation="-140"
+                CornerRadius="0"
+                Margin="-200,0,-150,-150"
+                HeightRequest="200"
+                Padding="0"
+                WidthRequest="300"
+                BackgroundColor="{StaticResource _red}">
                 <Button Clicked="bottomleftbtn_click" BackgroundColor="{StaticResource _red}"/>
             </Frame>
 
             <Frame Grid.Row="2" Grid.Column="2" 
-BorderColor="{StaticResource _red}" 
-Rotation="140"
-CornerRadius="0"
-Margin="-200,0,-250,-150"
-HeightRequest="200"
-Padding="0"
-WidthRequest="300"
-BackgroundColor="{StaticResource _red}">
+                BorderColor="{StaticResource _red}" 
+                Rotation="140"
+                CornerRadius="0"
+                Margin="-200,0,-250,-150"
+                HeightRequest="200"
+                Padding="0"
+                WidthRequest="300"
+                BackgroundColor="{StaticResource _red}">
                 <Button Clicked="bottomrightbtn_click" BackgroundColor="{StaticResource _red}"/>
             </Frame>
 
