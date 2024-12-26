@@ -5,6 +5,7 @@ using Sypram.Common;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AEPOS.PriceChecker_11.Pages;
 
@@ -612,6 +613,10 @@ public partial class HomePage : ContentPage
 			if (topleft_btn.Equals(true) && topright_btn.Equals(true) && bottomleft_btn.Equals(true) && bottomright_btn.Equals(true))
 			{
 				await App.cacheDataRepo.RemoveStoreData();
+				Globals.StoreName = "";
+				Globals.Store_ID = "";
+				storename.Text = "";
+				Globals.Server_ConnStr = "";
 				Navigation.PopAsync();
 			}
 		}

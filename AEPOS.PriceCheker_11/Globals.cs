@@ -30,7 +30,7 @@ namespace AEPOS.PriceChecker_11
 
         private static DBManager _ServerDB;
         // private static SQLiteManager _ConfigDB;
-        static string Server_ConnStr;
+        public static string Server_ConnStr;
 
         //------------------------------------------------------------------
         /// <summary>
