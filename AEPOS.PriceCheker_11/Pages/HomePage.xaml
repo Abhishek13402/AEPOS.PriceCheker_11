@@ -111,6 +111,7 @@
         PlaceholderColor="{StaticResource _black}"
         FontSize="30"
         Margin="0,0,50,0"
+        MaxLength="30"
         TextColor="#333333"
         BackgroundColor="Transparent"
         Keyboard="Text"
@@ -219,11 +220,11 @@
                             </ScrollView>
                         </Frame>
 
-                        <Frame Grid.Row="0" Grid.Column="1" WidthRequest="500" Margin="-5,-60,0,0" BackgroundColor="Transparent" BorderColor="Transparent" HeightRequest="300" >
+                        <Frame Grid.Row="0" Grid.Column="1" HeightRequest="300" WidthRequest="500" Margin="-5,-75,0,0" BackgroundColor="Transparent" BorderColor="Transparent">
                             <ScrollView x:Name="listSection" IsVisible="False">
                                 <CollectionView x:Name="MyCollectionView"
                                     WidthRequest="400"
-                                    HeightRequest="230"
+                                    HeightRequest="200"
                                     VerticalOptions="FillAndExpand"
                                     ItemsSource="{Binding Items}">
                                     <CollectionView.ItemTemplate>
@@ -262,7 +263,7 @@
                         </VerticalStackLayout>
 
                         <!--keyboad section-->
-                        <Border x:Name="KeyboardLayout" IsVisible="False" Margin="0,-30,0,0" Stroke="#717171" StrokeThickness="2" BackgroundColor="#FFFFFF">
+                        <Border x:Name="KeyboardLayout" IsVisible="False" Margin="0,-45,0,0" Stroke="#717171" StrokeThickness="2" BackgroundColor="#FFFFFF">
                             <Grid Padding="5" RowSpacing="5" WidthRequest="700">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
