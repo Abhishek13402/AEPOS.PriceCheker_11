@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
+using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
 
 namespace AEPOS.PriceChecker_11.Pages;
 
@@ -311,18 +312,18 @@ public partial class HomePage : ContentPage
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
 		}
 	}
-	private void ResetTimer()
-	{
-		try
-		{
-			StopTimer();
-			_eventTimer.Start();
-		}
-		catch (Exception ex)
-		{
-			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-		}
-	}
+	//private void ResetTimer()
+	//{
+	//	try
+	//	{
+	//		StopTimer();
+	//		_eventTimer.Start();
+	//	}
+	//	catch (Exception ex)
+	//	{
+	//		DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+	//	}
+	//}
 	private void RefreshButton_Clicked(object sender, EventArgs e)
 	{
 		try
@@ -788,6 +789,7 @@ public partial class HomePage : ContentPage
 			string Location = "";
 			string Description = "";
 			string CurrencySymbol = "";
+			string strUPC = "";
 
 			nRes = Setup_dal.GetSetupOption(StoreID, "CURRSYMBOL");
 			if (nRes == 1)
@@ -817,6 +819,7 @@ public partial class HomePage : ContentPage
 			CatName = dt.Rows[0]["CatName"].ToString() != null ? dt.Rows[0]["CatName"].ToString() : "";
 			RegPrice = System.Convert.ToDecimal(dt.Rows[0]["PricePerUnit"].ToString());
 			Description = dt.Rows[0]["Description"].ToString();
+			strUPC = dt.Rows[0]["MAINUPC"].ToString();
 
 			string sqlQuery = @"SELECT SI.SALEPRICE, SI.QUANTITY
                  FROM PRM_SALEITEM SI INNER JOIN PRM_SALE S ON S.SALEID = SI.SALEID
@@ -847,20 +850,20 @@ public partial class HomePage : ContentPage
 			else
 				Location = "";
 
-			string strUPC = "";
-			DataTable dtUPC = _ItemDAL.GetItemUPCByItem(SKU);
-			if (dtUPC != null && dtUPC.Rows.Count > 0)
-			{
-				foreach (DataRow item in dtUPC.Rows)
-				{
-					strUPC += item["UPC"].ToString() + "\n";
-				}
-			}
+			//string strUPC = "";
+			//DataTable dtUPC = _ItemDAL.GetItemUPCByItem(SKU);
+			//if (dtUPC != null && dtUPC.Rows.Count > 0)
+			//{
+			//	foreach (DataRow item in dtUPC.Rows)
+			//	{
+			//		strUPC += item["UPC"].ToString() + "\n";
+			//	}
+			//}
 
-			if (!string.IsNullOrEmpty(strUPC))
-			{
-				strUPC = strUPC.Substring(0, strUPC.Length - 2);
-			}
+			//if (!string.IsNullOrEmpty(strUPC))
+			//{
+			//	strUPC = strUPC.Substring(0, strUPC.Length - 2);
+			//}
 
 			//return Json(Globals.ReturnResult(new
 			//{
