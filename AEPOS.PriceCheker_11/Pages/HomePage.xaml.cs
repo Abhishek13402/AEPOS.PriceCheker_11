@@ -15,7 +15,7 @@ public partial class HomePage : ContentPage
 	public ObservableCollection<SearchFilter> Items { get; set; } = new ObservableCollection<SearchFilter>();
 	NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 	private System.Timers.Timer _eventTimer;
-	private const int TimerDuration = 15000; // 15 seconds in milliseconds
+	private const int TimerDuration = 20000; // 20 seconds in milliseconds
 
 	public HomePage()
 	{
@@ -880,10 +880,12 @@ public partial class HomePage : ContentPage
 			//	strUPC = strUPC
 			//}), JsonRequestBehavior.AllowGet);
 			lblName.Text = ItemName;
+
 			//lblSKU.Text = SKU.ToString();
 			if (SizeName == "")
 			{
-				lblSizeName.IsVisible = false;
+				//lblSizeName.IsVisible = false;
+				valuesizeName.Text = "          -";
 			}
 			else
 			{
@@ -893,7 +895,8 @@ public partial class HomePage : ContentPage
 
 			if (PackName == "")
 			{
-				lblPackName.IsVisible = false;
+				//lblPackName.IsVisible = false;
+				valuePackName.Text = "          -";
 			}
 			else
 			{
@@ -903,7 +906,8 @@ public partial class HomePage : ContentPage
 
 			if (DepName == "")
 			{
-				lblDepName.IsVisible = false;
+				//lblDepName.IsVisible = false;
+				valueDepName.Text = "          -";
 			}
 			else
 			{
@@ -913,7 +917,8 @@ public partial class HomePage : ContentPage
 
 			if (CatName == "")
 			{
-				lblCatName.IsVisible = false;
+				//lblCatName.IsVisible = false;
+				valueCatName.Text = "          -";
 			}
 			else
 			{
@@ -943,17 +948,20 @@ public partial class HomePage : ContentPage
 
 			if (Location == "")
 			{
-				lblLocation.IsVisible = false;
+				//lblLocation.IsVisible = false;
+				valueLocation.Text = "          -";
 			}
 			else
 			{
 				lblLocation.IsVisible = true;
 				valueLocation.Text = Location;
+
 			}
 
 			if (Description == "")
 			{
-				lblDescription.IsVisible = false;
+				//lblDescription.IsVisible = false;
+				valueDescription.Text = "          -";
 			}
 			else
 			{

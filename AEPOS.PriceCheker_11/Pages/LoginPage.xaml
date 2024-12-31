@@ -43,7 +43,7 @@ Padding="0">
                 <Label Text="© Copyright Sypram Software. All Rights Reserved" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
 
                 <!-- Version text aligned to the right -->
-                <Label Text="Version: 0.0.3" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="End"/>
+                <Label Text="Version: 0.0.4" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="End"/>
             </Grid>
 
 
