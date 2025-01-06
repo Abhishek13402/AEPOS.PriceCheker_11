@@ -19,7 +19,7 @@ public partial class LoginPage : ContentPage
 	bool isCapsLock_Enable = false;
 	bool isShift_Pressed = false;
 	string cutText;
-	private bool isLoginKeyboardVisible = false;
+	//private bool isLoginKeyboardVisible = false;
 	NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 	public async void CheckInternetAndExit()
 	{
@@ -221,8 +221,9 @@ public partial class LoginPage : ContentPage
 	{
 		try
 		{
-			isLoginKeyboardVisible = !isLoginKeyboardVisible;
-			Login_KeyboardLayout.IsVisible = isLoginKeyboardVisible;
+			//isLoginKeyboardVisible = !isLoginKeyboardVisible;
+			//Login_KeyboardLayout.IsVisible = isLoginKeyboardVisible;
+			Login_KeyboardLayout.IsVisible = true;
 		}
 		catch (Exception ex)
 		{
@@ -235,8 +236,10 @@ public partial class LoginPage : ContentPage
 	{
 		try
 		{
-			isLoginKeyboardVisible = !isLoginKeyboardVisible;
-			Login_KeyboardLayout.IsVisible = isLoginKeyboardVisible;
+			//isLoginKeyboardVisible = !isLoginKeyboardVisible;
+			//Login_KeyboardLayout.IsVisible = isLoginKeyboardVisible;
+			Login_KeyboardLayout.IsVisible = false;
+
 			entryGUID.Focus();
 		}
 		catch (Exception ex)

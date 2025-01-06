@@ -10,10 +10,17 @@
              NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
+        <!--<Style x:Key="BorderStyle" TargetType="telerik:RadBorder">
+            <Setter Property="BorderColor" Value="DarkGray" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="Margin" Value="15" />
+        </Style>-->
         <Style x:Key="btnStyle" TargetType="Button">
             <Setter Property="CornerRadius" Value="5" />
-            <Setter Property="HeightRequest" Value="60" />
-            <Setter Property="FontSize" Value="25" />
+            <Setter Property="HeightRequest" Value="{OnIdiom Phone=45, Tablet=60}" />
+            <Setter Property="FontSize" Value="{OnIdiom Phone=18, Tablet=25}" />
             <Setter Property="FontAttributes" Value="Bold" />
             <Setter Property="VerticalOptions" Value="Center" />
         </Style>
@@ -50,7 +57,7 @@
 
             <VerticalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
                 <Label  x:Name="storename" 
-                FontSize="40"
+                FontSize="{OnIdiom Phone=30, Tablet=40}"
                 Padding="5"
                 FontAttributes="Bold"
                 TextColor="Red"
@@ -119,9 +126,11 @@
                             <ImageButton Grid.Row="1" Grid.Column="0"
                                 Clicked="keyboardbtn_clicked"
                                 HorizontalOptions="Center"
+                                         Margin="0"
+                                         Padding="0"
                                 VerticalOptions="Start"
-                                WidthRequest="115"
-                                HeightRequest="100"
+                                WidthRequest="{OnIdiom Phone=60, Tablet=115}"
+                                HeightRequest="{OnIdiom Phone=90, Tablet=100}"
                                 BackgroundColor="{StaticResource _white}"
                                 Source="keyboard.png"/>
 
@@ -129,14 +138,14 @@
                                    BorderColor="Green" 
                                    BackgroundColor="#FFFFFF"
                                    Padding="10,0,0,0"
-                                   HeightRequest="70"
-                                   WidthRequest="400"
+                                   HeightRequest="{OnIdiom Phone=50, Tablet=70}"
+                                   WidthRequest="{OnIdiom Phone=300, Tablet=400}"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center">
                                 <Entry x:Name="SearchEntry" 
                                     Placeholder="Search"
                                     PlaceholderColor="{StaticResource _black}"
-                                    FontSize="30"
+                                    FontSize="{OnIdiom Phone=20, Tablet=30}"
                                     Margin="0,0,50,0"
                                     MaxLength="30"
                                     TextColor="#333333"
@@ -146,13 +155,13 @@
                             </Frame>
 
                             <ImageButton Grid.Row="1" Grid.Column="2" 
-                                Margin="0,0,20,0"  
+                                Margin="0,0,0,0"  
                                 x:Name="refreshButton"
                                 Clicked="RefreshButton_Clicked"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Start"
-                                WidthRequest="100"
-                                HeightRequest="100"
+                                WidthRequest="{OnIdiom Phone=50, Tablet=100}"
+                                HeightRequest="{OnIdiom Phone=80, Tablet=100}"
                                 BackgroundColor="{StaticResource _white}"
                                 Source="refreshimg.png"/>
                         </Grid>
@@ -172,8 +181,8 @@
                         </Grid>
 
                         <!-- Detail Section -->
-                        <Frame Margin="0,-20,0,0" x:Name="detailSection" BorderColor="Transparent" IsVisible="False" HeightRequest="600" HorizontalOptions="Center" >
-                            <ScrollView VerticalScrollBarVisibility="Always">
+                        <Frame Margin="0,-20,0,0" x:Name="detailSection" BorderColor="Transparent" IsVisible="False" HeightRequest="{OnIdiom Phone=400, Tablet=600}" HorizontalOptions="Center" >
+                            <ScrollView VerticalScrollBarVisibility="Never">
                                 <Grid RowDefinitions="Auto" ColumnDefinitions="3*,Auto,*" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
                                     <!-- center-->
                                     <VerticalStackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Spacing="10">
@@ -184,15 +193,15 @@
                                         </HorizontalStackLayout>
 
 
-                                        <Label x:Name="lblName" FontFamily="Lobster" Text="" TextColor="{StaticResource _dark_blue}" FontAttributes="Bold" FontSize="40" 
+                                        <Label x:Name="lblName" FontFamily="Lobster" Text="" TextColor="{StaticResource _dark_blue}" FontAttributes="Bold" FontSize="{OnIdiom Phone=30, Tablet=40}" 
                                               HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
                                         <HorizontalStackLayout x:Name="lblRegPrice" HorizontalOptions="Center" Spacing="5">
-                                            <Label x:Name="Pricelbl" Text="Normal Price: " TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="35" 
+                                            <Label x:Name="Pricelbl" Text="Normal Price: " TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="{OnIdiom Phone=25, Tablet=35}" 
                                                     HorizontalTextAlignment="Center"/>
-                                            <Label x:Name="CurrencySymbol1" Text="" TextColor="{StaticResource _green}" FontAttributes="Bold" FontSize="35" 
+                                            <Label x:Name="CurrencySymbol1" Text="" TextColor="{StaticResource _green}" FontAttributes="Bold" FontSize="{OnIdiom Phone=25, Tablet=35}" 
                                                   HorizontalTextAlignment="Center"/>
-                                            <Label x:Name="valueRegPrice" LineBreakMode="WordWrap" Text="" TextColor="{StaticResource _green}" FontAttributes="Bold" FontSize="35" 
+                                            <Label x:Name="valueRegPrice" LineBreakMode="WordWrap" Text="" TextColor="{StaticResource _green}" FontAttributes="Bold" FontSize="{OnIdiom Phone=25, Tablet=35}" 
                                                    HorizontalTextAlignment="Center"/>
                                         </HorizontalStackLayout>
 
@@ -213,7 +222,7 @@
                                             </Border.Stroke>
                                             <VerticalStackLayout>
                                                 <Label Text="Promo Price"
-                                                    FontSize="25"
+                                                    FontSize="{OnIdiom Phone=20, Tablet=25}"
                                                                FontFamily="Lobster"
                                                     HorizontalOptions="Center"
                                                     FontAttributes="Bold"/>
@@ -225,7 +234,7 @@
                                                        Text="" 
                                                        TextColor="{StaticResource _red}" 
                                                        FontAttributes="Bold" 
-                                                       FontSize="30" 
+                                                       FontSize="{OnIdiom Phone=20, Tablet=30}" 
                                                                FontFamily="Lobster"
                                                        HorizontalTextAlignment="Center" />
                                                     </HorizontalStackLayout>
@@ -279,9 +288,9 @@
                                                 <Label x:Name="lblDescription" Text="Description : " WidthRequest="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
                                                   HorizontalTextAlignment="End" />
                                                 <Label x:Name="valueDescription" Text="" TextColor="{StaticResource _black}" FontSize="17" 
-                                                 HorizontalTextAlignment="Start" WidthRequest="350"/>
+                                                 HorizontalTextAlignment="Start" WidthRequest="{OnIdiom Phone=200, Tablet=350}"/>
                                             </HorizontalStackLayout>
-
+                                          
                                             <FlexLayout Grid.Row="2" Grid.Column="1">
                                                 <Label x:Name="lblLocation" Text="Location : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
                                                 HorizontalTextAlignment="End"/>
@@ -295,11 +304,11 @@
                             </ScrollView>
                         </Frame>
 
-                        <Frame Grid.Row="0" Grid.Column="1" HeightRequest="300" WidthRequest="500" Margin="-5,-75,0,0" BackgroundColor="Transparent" BorderColor="Transparent">
+                        <Frame Grid.Row="0" Grid.Column="1" HeightRequest="300" WidthRequest="500" Margin="{OnIdiom Phone='8,-128,0,0', Tablet='12,-72,0,0'}"  BackgroundColor="Transparent" BorderColor="Transparent">
                             <ScrollView x:Name="listSection" IsVisible="False">
                                 <CollectionView x:Name="MyCollectionView"
-                                    WidthRequest="400"
-                                    HeightRequest="200"
+                                    WidthRequest="{OnIdiom Phone=300, Tablet=400}"
+                                    HeightRequest="{OnIdiom Phone=100, Tablet=200}"
                                     VerticalOptions="FillAndExpand"
                                     ItemsSource="{Binding Items}">
                                     <CollectionView.ItemTemplate>
@@ -327,19 +336,19 @@
                         <!-- Introductory Layout -->
                         <VerticalStackLayout x:Name="introSection" Margin="0,-100,0,0" IsVisible="True" Spacing="10" Padding="20" VerticalOptions="Center" HorizontalOptions="Center" >
                             <Label x:Name="lblneedprice"
-    Text="Need a Price ??" 
-    TextColor="{StaticResource _red}" 
-    FontSize="70" VerticalOptions="Center" HorizontalOptions="Center"
-    FontAttributes="Bold"/>
+                                Text="Need a Price ??" 
+                                TextColor="{StaticResource _red}" 
+                                FontSize="{OnIdiom Phone=50, Tablet=70}" VerticalOptions="Center" HorizontalOptions="Center"
+                                FontAttributes="Bold"/>
                             <Label x:Name="lblsimplytext" Text="Simply scan your item here..." 
-    TextColor="{StaticResource _black}" VerticalOptions="Center" HorizontalOptions="Center"
-    FontSize="30" 
-    FontAttributes="Bold"/>
+                                TextColor="{StaticResource _black}" VerticalOptions="Center" HorizontalOptions="Center"
+                                FontSize="{OnIdiom Phone=30, Tablet=30}" 
+                                FontAttributes="Bold"/>             
                         </VerticalStackLayout>
 
                         <!--keyboad section-->
-                        <Border x:Name="KeyboardLayout" HorizontalOptions="CenterAndExpand" IsVisible="False" Margin="0,-45,0,0" Stroke="#717171" StrokeThickness="2" BackgroundColor="#FFFFFF">
-                            <Grid Padding="5" RowSpacing="5" WidthRequest="700" Margin="0,-10,0,0">
+                        <Border x:Name="KeyboardLayout" HorizontalOptions="CenterAndExpand" IsVisible="False"  Margin="{OnIdiom Phone='0,-97,0,0', Tablet='0,-48,0,0'}" Stroke="#717171" StrokeThickness="2" BackgroundColor="#FFFFFF">
+                            <Grid Padding="5" RowSpacing="4" HeightRequest="{OnIdiom Phone=280, Tablet=340}" WidthRequest="{OnIdiom Phone=600, Tablet=700}" Margin="0,-10,0,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
