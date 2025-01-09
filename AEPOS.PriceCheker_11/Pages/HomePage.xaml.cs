@@ -1,6 +1,7 @@
 using AEPOS.DAO;
 using AEPOS.Model;
 using AEPOS.PriceCheker_11;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Sypram.Common;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -63,6 +64,8 @@ public partial class HomePage : ContentPage
 			{
 				lblneedprice.Text = "Need a Price ??";
 				lblsimplytext.IsVisible = true;
+				scrollToBottomButton.IsVisible = false;
+				scrollToTopButton.IsVisible = false;
 
 				detailSection.IsVisible = false;
 				if (listSection.IsVisible == true)
@@ -246,7 +249,7 @@ public partial class HomePage : ContentPage
 		public string CurrencySymbol { get; set; }
 		public string strUPC { get; set; }
 	}
-	private void OnBarcodeScanned(object sender, EventArgs e)
+	private async void OnBarcodeScanned(object sender, EventArgs e)
 	{
 		try
 		{
@@ -259,7 +262,11 @@ public partial class HomePage : ContentPage
 			introSection.IsVisible = false;
 			string scannedData = SearchEntry.Text;
 			isbarcodescan = true;
-			SearchItemBySKU(scannedData);
+			bool ScannedSuccessfully = await SearchItemBySKU(scannedData);
+			if (ScannedSuccessfully == true)
+			{
+				SizeEvaluation();
+			}
 			//btnSearch_Clicked(scannedData);
 			SearchEntry.Text = string.Empty;
 			RestartTimer();
@@ -269,7 +276,7 @@ public partial class HomePage : ContentPage
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
 		}
 	}
-	private void OnItemTapped(object sender, TappedEventArgs e)
+	private async void OnItemTapped(object sender, TappedEventArgs e)
 	{
 		try
 		{
@@ -278,7 +285,12 @@ public partial class HomePage : ContentPage
 				loadingpopup.Show();
 				introSection.IsVisible = false;
 
-				SearchItemBySKU(selectedSKU.ToString());
+				bool ItmFound = await SearchItemBySKU(selectedSKU.ToString());
+				if (ItmFound == true)
+				{
+					SizeEvaluation();
+				}
+
 				//btnSearch_Clicked(selectedUPC);
 				KeyboardLayout.IsVisible = false;
 				RestartTimer();
@@ -286,7 +298,8 @@ public partial class HomePage : ContentPage
 		}
 		catch (Exception ex)
 		{
-			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void RestartTimer()
@@ -334,6 +347,9 @@ public partial class HomePage : ContentPage
 			SearchEntry.Focus();
 			lblneedprice.Text = "Need a Price ??";
 			lblsimplytext.IsVisible = true;
+
+			scrollToBottomButton.IsVisible = false;
+			scrollToTopButton.IsVisible = false;
 
 			topleft_btn = false;
 			topright_btn = false;
@@ -575,7 +591,7 @@ public partial class HomePage : ContentPage
 	{
 		DisplayAlert("", "", "Ok");
 	}
-	private void Enter_Button_Clicked(object sender, EventArgs e)
+	private async void Enter_Button_Clicked(object sender, EventArgs e)
 	{
 		SearchFilter firstitem = Items.FirstOrDefault();
 		if (SearchEntry.Text == "")
@@ -586,7 +602,11 @@ public partial class HomePage : ContentPage
 		if (firstitem != null)
 		{
 			//btnSearch_Clicked(firstitem.ID);
-			SearchItemBySKU(firstitem.ID.ToString());
+			bool ItmFound = await SearchItemBySKU(firstitem.ID.ToString());
+			if (ItmFound == true)
+			{
+				SizeEvaluation();
+			}
 		}
 		else
 		{
@@ -686,7 +706,7 @@ public partial class HomePage : ContentPage
 		public string value { get; set; }
 		public int ID { get; set; }
 	}
-	public void SearchItemBySKU(string SearchValue)
+	public async Task<bool> SearchItemBySKU(string SearchValue)
 	{
 		bool ExtendedSearch = false;
 		bool UPC_EToA = false;
@@ -699,6 +719,7 @@ public partial class HomePage : ContentPage
 		{
 			listSection.IsVisible = false;
 			detailSection.IsVisible = true;
+			//CheckScrollBarVisibility();
 			//SearchEntry.Text = "";
 			Items.Clear();
 			loadingpopup.Hide();
@@ -753,7 +774,7 @@ public partial class HomePage : ContentPage
 				lblneedprice.Text = "Item not Found!";
 				lblsimplytext.IsVisible = false;
 				//DisplayAlert("Alert!!", "Item Not Found", "OK");
-				return;
+				return false;
 			}
 
 			if (bFound == false || objResult == null || objResult.IsSKUFound == false)
@@ -764,7 +785,7 @@ public partial class HomePage : ContentPage
 				lblneedprice.Text = "Item not Found!";
 				lblsimplytext.IsVisible = false;
 				//DisplayAlert("Alert!!", "Item Not Found", "OK");
-				return;
+				return false;
 			}
 			else
 			{
@@ -776,7 +797,7 @@ public partial class HomePage : ContentPage
 			if (!Item_DAL.Instantiate(_DbMgr, false, out ErrMsg, out _ItemDAL))
 			{
 				DisplayAlert("Alert!!", ErrMsg, "OK");
-				return;
+				return false;
 			}
 
 			int SKU = 0;
@@ -807,7 +828,7 @@ public partial class HomePage : ContentPage
 				introSection.IsVisible = true;
 				lblneedprice.Text = "Item not Found!";
 				lblsimplytext.IsVisible = false;
-				return;
+				return false;
 			}
 
 			SKU = System.Convert.ToInt32(dt.Rows[0]["SKU"].ToString());
@@ -978,10 +999,14 @@ public partial class HomePage : ContentPage
 				lblstrUPC.IsVisible = true;
 				valuestrUPC.Text = strUPC;
 			}
+
+			return true;
+			
 		}
 		catch (Exception ex)
 		{
-			DisplayAlert("Alert!!", ex.Message, "OK");
+			await DisplayAlert("Alert!!", ex.Message, "OK");
+			return false;
 		}
 		finally
 		{
@@ -1145,5 +1170,109 @@ public partial class HomePage : ContentPage
 		}
 	}
 	#endregion
+
+	//public void CheckScrollBarVisibility()
+	//{
+	//	// Wait for layout cycle to complete
+	//	detailSection.SizeChanged += (s, e) =>
+	//	{
+	//		// Compare content size to ScrollView's visible size
+	//		bool isVerticalScrollBarVisible = detailSection.ContentSize.Height > detailSection.Height;
+
+
+	//		if (isVerticalScrollBarVisible)
+	//		{
+	//			Console.WriteLine("Vertical scrollbar will be visible.");
+	//		}
+
+
+	//	};
+	//}
+
+	private async void SizeEvaluation()
+	{
+		//await DisplayAlert("Data", $"detailSection.ContentSize.Height: {detailSection.ContentSize.Height}\ndetailSection.Height : {detailSection.Height}", "OK");
+		await Task.Delay(100); // Small delay to allow the layout to stabilize
+		if (detailSection.ContentSize.Height > detailSection.Height)
+		{
+			scrollToBottomButton.IsVisible = true;
+			scrollToTopButton.IsVisible = true;
+		}
+		else
+		{
+			// Disable the button if no scrolling is required
+			scrollToBottomButton.IsVisible = false;
+			scrollToTopButton.IsVisible = false;
+		}
+	}
+
+	private void detailSection_Scrolled(object sender, ScrolledEventArgs e)
+	{
+		try
+		{
+			detailSection_SizeChanged(sender, e);
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
+	}
+
+	private void detailSection_SizeChanged(object sender, EventArgs e)
+	{
+		try
+		{
+			Console.WriteLine($"detailSection.ContentSize.Height: {detailSection.ContentSize.Height}, detailSection.Height: {detailSection.Height}");
+			bool isVerticalScrollBarVisible = detailSection.ContentSize.Height > detailSection.Height;
+
+			if (isVerticalScrollBarVisible)
+			{
+				Console.WriteLine("Vertical scrollbar will be visible.");
+				detailSection.VerticalScrollBarVisibility = ScrollBarVisibility.Always;
+				// Enable the scroll-down button
+				scrollToBottomButton.IsVisible = true;
+				scrollToTopButton.IsVisible = true;
+			}
+			else
+			{
+				// Disable the button if no scrolling is required
+				scrollToBottomButton.IsVisible = false;
+				scrollToTopButton.IsVisible = false;
+			}
+		} catch(Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
+	}
+
+	private async void ScrollToTopButton_Clicked(object sender, EventArgs e)
+	{
+		try
+		{
+			// Scroll to the top of the content
+			await detailSection.ScrollToAsync(0, 0, true);
+		}
+		catch (Exception ex)
+		{
+			await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+		}
+	}
+
+	private async void ScrollToBottomButton_Clicked(object sender, EventArgs e)
+	{
+		try
+		{
+			// Scroll to the bottom of the content
+			await detailSection.ScrollToAsync(0, detailSection.ContentSize.Height, true);
+		}
+		catch (Exception ex)
+		{
+			await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+		}
+	}
+
+
 
 }

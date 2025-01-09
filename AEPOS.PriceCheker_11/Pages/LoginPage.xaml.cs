@@ -44,6 +44,7 @@ public partial class LoginPage : ContentPage
 	{
 		if (Globals.InitialLoad == true)
 		{
+			entryGUID.Focus();
 			try
 			{
 				loadingPage.IsVisible = true;
@@ -173,26 +174,26 @@ public partial class LoginPage : ContentPage
 	{
 		try
 		{
-			loadingpopup.Show();
 			Login_KeyboardLayout.IsVisible = false;
 			if (string.IsNullOrEmpty(entryGUID.Text))
 			{
 				await DisplayAlert("Alert !", "Enter GU-ID", "ok");
 				return;
 			}
+			loadingpopup.Show();
 			string guId = entryGUID.Text.Trim();
 
 			if (await Globals.GetConnectionString(guId) == false)
 			{
-				await DisplayAlert("Failed !", "Invalid GUID.", "ok");
 				loadingpopup.Hide();
+				await DisplayAlert("Failed !", "Invalid GUID.", "ok");
 				return;
 			}
 
-			if(Globals.ConnectToDatabase()==false)
+			if (Globals.ConnectToDatabase() == false)
 			{
-				await DisplayAlert("Error !", "while connection", "ok");
 				loadingpopup.Hide();
+				await DisplayAlert("Error !", "while connection", "ok");
 				return;
 			}
 
@@ -352,6 +353,7 @@ public partial class LoginPage : ContentPage
 	{
 		try
 		{
+
 			if (sender is Button button)
 			{
 				string KeyText;
@@ -366,6 +368,7 @@ public partial class LoginPage : ContentPage
 				entryGUID.Focus();
 				InsertTextAtCursor(KeyText);
 			}
+
 		}
 		catch (Exception ex)
 		{
@@ -378,14 +381,16 @@ public partial class LoginPage : ContentPage
 		{
 			int cursorPosition = entryGUID.CursorPosition;
 			string currentText = entryGUID.Text;
-
 			if (currentText == null)
 			{
 				currentText = string.Empty;
 			}
-			string newText = currentText.Insert(cursorPosition, text);
-			entryGUID.Text = newText;
-			entryGUID.CursorPosition = cursorPosition + text.Length;
+			if (currentText.Length < 70)
+			{
+				string newText = currentText.Insert(cursorPosition, text);
+				entryGUID.Text = newText;
+				entryGUID.CursorPosition = cursorPosition + text.Length;
+			}
 		}
 		catch (Exception ex)
 		{
@@ -503,4 +508,5 @@ public partial class LoginPage : ContentPage
 		}
 	}
 	#endregion
+
 }

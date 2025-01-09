@@ -88,8 +88,11 @@
                 BackgroundColor="{StaticResource _red}">
                 <Button Clicked="toprightbtn_click" BackgroundColor="{StaticResource _red}"/>
             </Frame>
+            <VerticalStackLayout Grid.Column="0" Grid.Row="1">
+                
+            </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" >
+            <VerticalStackLayout Grid.Column="1" Grid.Row="1">
                 <Grid RowSpacing="8">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -102,28 +105,13 @@
 
                     <HorizontalStackLayout Grid.Row="0" Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
                         <Grid ColumnSpacing="10" RowSpacing="0">
-                            <Grid.RowDefinitions>
-                                <!--<RowDefinition/>-->
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
-                            <!--row - 0-->
-                            <!--
-                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
-                                   Text="Scan or Search your item here"
-                                   HorizontalOptions="Center"
-                                   TextColor="Red"
-                                   Margin="0,20,0,0"
-                                   FontAttributes="Bold"
-                                   FontSize="30"
-                                   />-->
-                            <!--row - 1-->
-                            <ImageButton Grid.Row="1" Grid.Column="0"
+                            
+                            <ImageButton Grid.Column="0"
                                 Clicked="keyboardbtn_clicked"
                                 HorizontalOptions="Center"
                                          Margin="0"
@@ -133,102 +121,92 @@
                                 HeightRequest="{OnIdiom Phone=90, Tablet=100}"
                                 BackgroundColor="{StaticResource _white}"
                                 Source="keyboard.png"/>
-
-                            <Frame Grid.Row="1" Grid.Column="1" CornerRadius="8" 
-                                   BorderColor="Green" 
-                                   BackgroundColor="#FFFFFF"
-                                   Padding="10,0,0,0"
-                                   HeightRequest="{OnIdiom Phone=50, Tablet=70}"
-                                   WidthRequest="{OnIdiom Phone=300, Tablet=400}"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center">
+                            
+                            <Border Grid.Column="1" 
+                                    HeightRequest="{OnIdiom Phone=50, Tablet=70}"
+                                    WidthRequest="{OnIdiom Phone=300, Tablet=400}"
+                                    Stroke="Green" StrokeShape="RoundRectangle 8">
                                 <Entry x:Name="SearchEntry" 
-                                    Placeholder="Search"
-                                    PlaceholderColor="{StaticResource _black}"
-                                    FontSize="{OnIdiom Phone=20, Tablet=30}"
-                                    Margin="0,0,50,0"
-                                    MaxLength="30"
-                                    TextColor="#333333"
-                                    BackgroundColor="Transparent"
-                                    Keyboard="Text"
-                                    TextChanged="SearchItemName"/>
-                            </Frame>
+                                        Placeholder="Search"
+                                        PlaceholderColor="{StaticResource _black}"
+                                        FontSize="{OnIdiom Phone=20, Tablet=30}"
+                                        Margin="0,0,50,0"
+                                        MaxLength="30"
+                                        TextColor="#333333"
+                                        BackgroundColor="Transparent"
+                                        Keyboard="Text"
+                                        TextChanged="SearchItemName" />
+                            </Border>
 
-                            <ImageButton Grid.Row="1" Grid.Column="2" 
-                                Margin="0,0,0,0"  
-                                x:Name="refreshButton"
-                                Clicked="RefreshButton_Clicked"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Start"
-                                WidthRequest="{OnIdiom Phone=50, Tablet=100}"
-                                HeightRequest="{OnIdiom Phone=80, Tablet=100}"
-                                BackgroundColor="{StaticResource _white}"
-                                Source="refreshimg.png"/>
+                            <ImageButton Grid.Column="2" 
+                                 Margin="0,0,0,0"  
+                                 x:Name="refreshButton"
+                                 Clicked="RefreshButton_Clicked"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Start"
+                                 WidthRequest="{OnIdiom Phone=60, Tablet=100}"
+                                 HeightRequest="{OnIdiom Phone=80, Tablet=100}"
+                                 BackgroundColor="{StaticResource _white}"
+                                 Source="refreshimg.png"/>
                         </Grid>
                     </HorizontalStackLayout>
 
-                    <VerticalStackLayout Grid.Row="1">
-
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                        </Grid>
+                    <VerticalStackLayout Grid.Row="1"> 
 
                         <!-- Detail Section -->
-                        <Frame Margin="0,-20,0,0" x:Name="detailSection" BorderColor="Transparent" IsVisible="False" HeightRequest="{OnIdiom Phone=400, Tablet=600}" HorizontalOptions="Center" >
-                            <ScrollView VerticalScrollBarVisibility="Never">
-                                <Grid RowDefinitions="Auto" ColumnDefinitions="3*,Auto,*" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
-                                    <!-- center-->
-                                    <VerticalStackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Spacing="10">
+                        <!--<Frame Margin="0,-20,0,0" x:Name="detailSection" BorderColor="Transparent" IsVisible="False" HeightRequest="{OnIdiom Phone=400, Tablet=600}" HorizontalOptions="Center" >-->
+                        <ScrollView Margin="0,-20,0,0"
+                                    x:Name="detailSection" 
+                                    IsVisible="False"
+                                    HeightRequest="{OnIdiom Phone=400, Tablet=600}"
+                                    HorizontalOptions="Center">
+                            <Grid RowDefinitions="Auto" ColumnDefinitions="3*,Auto,*" 
+                                      HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
+                                <!-- center-->
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Spacing="10">
 
-                                        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                                            <Label x:Name="lblstrUPC" Text="UPC :" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17"/>
-                                            <Label x:Name="valuestrUPC" Text="" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17"/>
-                                        </HorizontalStackLayout>
+                                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                        <Label x:Name="lblstrUPC" Text="UPC :" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17"/>
+                                        <Label x:Name="valuestrUPC" Text="" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17"/>
+                                    </HorizontalStackLayout>
 
 
-                                        <Label x:Name="lblName" FontFamily="Lobster" Text="" TextColor="{StaticResource _dark_blue}" FontAttributes="Bold" FontSize="{OnIdiom Phone=30, Tablet=40}" 
+                                    <Label x:Name="lblName" FontFamily="Lobster" Text="" TextColor="{StaticResource _dark_blue}" FontAttributes="Bold" FontSize="{OnIdiom Phone=30, Tablet=40}" 
                                               HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
-                                        <HorizontalStackLayout x:Name="lblRegPrice" HorizontalOptions="Center" Spacing="5">
-                                            <Label x:Name="Pricelbl" Text="Normal Price: " TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="{OnIdiom Phone=25, Tablet=35}" 
+                                    <HorizontalStackLayout x:Name="lblRegPrice" HorizontalOptions="Center" Spacing="5">
+                                        <Label x:Name="Pricelbl" Text="Normal Price: " TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="{OnIdiom Phone=25, Tablet=35}" 
                                                     HorizontalTextAlignment="Center"/>
-                                            <Label x:Name="CurrencySymbol1" Text="" TextColor="{StaticResource _green}" FontAttributes="Bold" FontSize="{OnIdiom Phone=25, Tablet=35}" 
+                                        <Label x:Name="CurrencySymbol1" Text="" TextColor="{StaticResource _green}" FontAttributes="Bold" FontSize="{OnIdiom Phone=25, Tablet=35}" 
                                                   HorizontalTextAlignment="Center"/>
-                                            <Label x:Name="valueRegPrice" LineBreakMode="WordWrap" Text="" TextColor="{StaticResource _green}" FontAttributes="Bold" FontSize="{OnIdiom Phone=25, Tablet=35}" 
+                                        <Label x:Name="valueRegPrice" LineBreakMode="WordWrap" Text="" TextColor="{StaticResource _green}" FontAttributes="Bold" FontSize="{OnIdiom Phone=25, Tablet=35}" 
                                                    HorizontalTextAlignment="Center"/>
-                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
 
 
-                                        <Border x:Name="lblSalePrice"
+                                    <Border x:Name="lblSalePrice"
                                             StrokeThickness="4"
                                             StrokeShape="RoundRectangle 50,0,0,50"
                                             Background="Transparent"
                                             Padding="16,8"
                                             HorizontalOptions="Center">
-                                            <Border.Stroke>
-                                                <LinearGradientBrush EndPoint="0,1">
-                                                    <GradientStop Color="Black"
+                                        <Border.Stroke>
+                                            <LinearGradientBrush EndPoint="0,1">
+                                                <GradientStop Color="Black"
                                                         Offset="0.1" />
-                                                    <GradientStop Color="Black"
+                                                <GradientStop Color="Black"
                                                         Offset="1.0" />
-                                                </LinearGradientBrush>
-                                            </Border.Stroke>
-                                            <VerticalStackLayout>
-                                                <Label Text="Promo Price"
+                                            </LinearGradientBrush>
+                                        </Border.Stroke>
+                                        <VerticalStackLayout>
+                                            <Label Text="Promo Price"
                                                     FontSize="{OnIdiom Phone=20, Tablet=25}"
                                                                FontFamily="Lobster"
                                                     HorizontalOptions="Center"
                                                     FontAttributes="Bold"/>
-                                                <Frame BackgroundColor="Transparent" BorderColor="White" Padding="0" Margin="0">
-                                                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                                        <Label x:Name="valueSalePrice" 
+                                            <Frame BackgroundColor="Transparent" BorderColor="White" Padding="0" Margin="0">
+                                                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                                    <Label x:Name="valueSalePrice" 
                                                        HorizontalOptions="FillAndExpand" 
                                                        LineBreakMode="WordWrap" 
                                                        Text="" 
@@ -237,74 +215,74 @@
                                                        FontSize="{OnIdiom Phone=20, Tablet=30}" 
                                                                FontFamily="Lobster"
                                                        HorizontalTextAlignment="Center" />
-                                                    </HorizontalStackLayout>
-                                                </Frame>
-                                            </VerticalStackLayout>
+                                                </HorizontalStackLayout>
+                                            </Frame>
+                                        </VerticalStackLayout>
 
-                                        </Border>
+                                    </Border>
 
-                                        <Grid Padding="0" Margin="0">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
+                                    <Grid Padding="0" Margin="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
 
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
 
-                                            <FlexLayout Grid.Row="0" Grid.Column="0" >
-                                                <Label x:Name="lblDepName" Text="Department : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
+                                        <FlexLayout Grid.Row="0" Grid.Column="0" >
+                                            <Label x:Name="lblDepName" Text="Department : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
                                                 HorizontalTextAlignment="End"/>
-                                                <Label x:Name="valueDepName"  FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17"
+                                            <Label x:Name="valueDepName"  FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17"
                                                 HorizontalTextAlignment="Start"/>
-                                            </FlexLayout>
+                                        </FlexLayout>
 
-                                            <FlexLayout Grid.Row="0" Grid.Column="1">
-                                                <Label x:Name="lblSizeName" Text="Size Name : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
+                                        <FlexLayout Grid.Row="0" Grid.Column="1">
+                                            <Label x:Name="lblSizeName" Text="Size Name : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
                                                 HorizontalTextAlignment="End"/>
-                                                <Label x:Name="valuesizeName"  FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17" 
+                                            <Label x:Name="valuesizeName"  FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17" 
                                                 HorizontalTextAlignment="Start"/>
-                                            </FlexLayout>
+                                        </FlexLayout>
 
-                                            <FlexLayout  Grid.Row="1" Grid.Column="0">
-                                                <Label x:Name="lblPackName" Text="Pack Name : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
+                                        <FlexLayout  Grid.Row="1" Grid.Column="0">
+                                            <Label x:Name="lblPackName" Text="Pack Name : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
                                                 HorizontalTextAlignment="End"/>
-                                                <Label x:Name="valuePackName"  FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17" 
+                                            <Label x:Name="valuePackName"  FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17" 
                                                  HorizontalTextAlignment="Start"/>
-                                            </FlexLayout>
+                                        </FlexLayout>
 
-                                            <FlexLayout Grid.Row="1" Grid.Column="1">
-                                                <Label x:Name="lblCatName" Text="Category : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
+                                        <FlexLayout Grid.Row="1" Grid.Column="1">
+                                            <Label x:Name="lblCatName" Text="Category : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
                                                  HorizontalTextAlignment="End" />
-                                                <Label x:Name="valueCatName" FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17" 
+                                            <Label x:Name="valueCatName" FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17" 
                                                  HorizontalTextAlignment="Start" />
-                                            </FlexLayout>
+                                        </FlexLayout>
 
-                                            <HorizontalStackLayout  Grid.Row="2" Grid.Column="0">
-                                                <Label x:Name="lblDescription" Text="Description : " WidthRequest="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
+                                        <HorizontalStackLayout  Grid.Row="2" Grid.Column="0">
+                                            <Label x:Name="lblDescription" Text="Description : " WidthRequest="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
                                                   HorizontalTextAlignment="End" />
-                                                <Label x:Name="valueDescription" Text="" TextColor="{StaticResource _black}" FontSize="17" 
-                                                 HorizontalTextAlignment="Start" WidthRequest="{OnIdiom Phone=200, Tablet=350}"/>
-                                            </HorizontalStackLayout>
-                                          
-                                            <FlexLayout Grid.Row="2" Grid.Column="1">
-                                                <Label x:Name="lblLocation" Text="Location : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
+                                            <Label x:Name="valueDescription" Text="" TextColor="{StaticResource _black}" FontSize="17" 
+                                                 HorizontalTextAlignment="Start" WidthRequest="{OnIdiom Phone=180, Tablet=300}"/>
+                                        </HorizontalStackLayout>
+
+                                        <FlexLayout Grid.Row="2" Grid.Column="1">
+                                            <Label x:Name="lblLocation" Text="Location : " FlexLayout.Basis="150" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17" 
                                                 HorizontalTextAlignment="End"/>
-                                                <Label x:Name="valueLocation" FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17" 
+                                            <Label x:Name="valueLocation" FlexLayout.Grow="1" Text="" TextColor="{StaticResource _black}" FontSize="17" 
                                                 HorizontalTextAlignment="Start"/>
-                                            </FlexLayout>
-                                        </Grid>
-                                    </VerticalStackLayout>
+                                        </FlexLayout>
+                                    </Grid>
+                                </VerticalStackLayout>
 
-                                </Grid>
-                            </ScrollView>
-                        </Frame>
+                            </Grid>
+                        </ScrollView>
+                        <!--</Frame>-->
 
-                        <Frame Grid.Row="0" Grid.Column="1" HeightRequest="300" WidthRequest="500" Margin="{OnIdiom Phone='8,-128,0,0', Tablet='12,-72,0,0'}"  BackgroundColor="Transparent" BorderColor="Transparent">
+                        <Frame HeightRequest="300" WidthRequest="500" Margin="{OnIdiom Phone='0,-128,0,0', Tablet='13,-72,0,0'}"  BackgroundColor="Transparent" BorderColor="Transparent">
                             <ScrollView x:Name="listSection" IsVisible="False">
                                 <CollectionView x:Name="MyCollectionView"
                                     WidthRequest="{OnIdiom Phone=300, Tablet=400}"
@@ -343,7 +321,7 @@
                             <Label x:Name="lblsimplytext" Text="Simply scan your item here..." 
                                 TextColor="{StaticResource _black}" VerticalOptions="Center" HorizontalOptions="Center"
                                 FontSize="{OnIdiom Phone=30, Tablet=30}" 
-                                FontAttributes="Bold"/>             
+                                FontAttributes="Bold"/>
                         </VerticalStackLayout>
 
                         <!--keyboad section-->
@@ -481,7 +459,32 @@
                     </VerticalStackLayout>
 
                 </Grid>
+
             </VerticalStackLayout>
+
+            <FlexLayout Grid.Row="1" Grid.Column="2" JustifyContent="SpaceAround" Direction="Column" AlignItems="Center">
+                <!-- Scroll-to-top button -->
+                <ImageButton 
+                     x:Name="scrollToTopButton"
+                     Source="up_arrow.png" 
+                     IsVisible="False"
+                     Clicked="ScrollToTopButton_Clicked"
+                     HorizontalOptions="End"
+                     HeightRequest="50"
+                     WidthRequest="50"
+                     VerticalOptions="Center" />            
+
+                <!-- Scroll-to-bottom button -->
+                <ImageButton 
+                     x:Name="scrollToBottomButton"
+                     Source="down_arrow.png" 
+                     IsVisible="False"
+                     HeightRequest="50"
+                     WidthRequest="50"
+                     Clicked="ScrollToBottomButton_Clicked"
+                     HorizontalOptions="End"
+                     VerticalOptions="Center" />        
+            </FlexLayout>
 
             <Frame Grid.Row="2" Grid.Column="0"
                 BorderColor="{StaticResource _red}" 
