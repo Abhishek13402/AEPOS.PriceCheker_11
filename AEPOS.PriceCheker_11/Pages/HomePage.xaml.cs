@@ -17,7 +17,7 @@ public partial class HomePage : ContentPage
 	NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 	private System.Timers.Timer _eventTimer;
 	private const int TimerDuration = 20000; // 20 seconds in milliseconds
-
+	private bool bIsScrollBtnClicked = false;
 	public HomePage()
 	{
 		CheckInternetAndExit();
@@ -41,7 +41,15 @@ public partial class HomePage : ContentPage
 	public bool isbarcodescan = false;
 	private void MainPage_Loaded(object sender, EventArgs e)
 	{
-		SearchEntry.Focus();
+		try
+		{
+			SearchEntry.Focus();
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
 	}
 	private void InitializeTimer()
 	{
@@ -54,6 +62,7 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -87,8 +96,8 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
-
 	}
 	#region CheckInternetAndExit
 	public async void CheckInternetAndExit()
@@ -109,6 +118,7 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 
@@ -232,6 +242,7 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	public class Item
@@ -274,6 +285,7 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private async void OnItemTapped(object sender, TappedEventArgs e)
@@ -312,31 +324,22 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
-	private void StopTimer()
-	{
-		try
-		{
-			_eventTimer.Stop();
-		}
-		catch (Exception ex)
-		{
-			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-		}
-	}
-	//private void ResetTimer()
+	//private void StopTimer()
 	//{
 	//	try
 	//	{
-	//		StopTimer();
-	//		_eventTimer.Start();
+	//		_eventTimer.Stop();
 	//	}
 	//	catch (Exception ex)
 	//	{
 	//		DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+	//		return;
 	//	}
 	//}
+
 	private void RefreshButton_Clicked(object sender, EventArgs e)
 	{
 		try
@@ -367,40 +370,66 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 
 	private void CloseApp()
 	{
+		try
+		{
 #if ANDROID
-        Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+			Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
 #endif
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
 	}
 	#endregion
+
 
 	#region Keyboard methods
 	//keyborad methods-----------------------------------------------------
 	private void keyboardbtn_clicked(object sender, EventArgs e)
 	{
-		if (KeyboardLayout.IsVisible == false)
+		try
 		{
+			if (KeyboardLayout.IsVisible == false)
+			{
+				KeyboardLayout.IsVisible = true;
+			}
+			if (SearchEntry.Text != null)
+			{
+				SearchEntry.Text = "";
+				SearchEntry.Focus();
+				listSection.IsVisible = false;
+			}
+			introSection.IsVisible = false;
 			KeyboardLayout.IsVisible = true;
+			RefreshButton_Clicked(sender, e);
 		}
-		if (SearchEntry.Text != null)
+		catch (Exception ex)
 		{
-			SearchEntry.Text = "";
-			SearchEntry.Focus();
-			listSection.IsVisible = false;
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
-		introSection.IsVisible = false;
-		KeyboardLayout.IsVisible = true;
-		RefreshButton_Clicked(sender, e);
 	}
 	private void HomeBtnCloseKeyboard(object sender, EventArgs e)
 	{
-		KeyboardLayout.IsVisible = false;
-		SearchEntry.Focus();
-		RefreshButton_Clicked(sender, e);
+		try
+		{
+			KeyboardLayout.IsVisible = false;
+			SearchEntry.Focus();
+			RefreshButton_Clicked(sender, e);
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
 	}
 	private void Backspace_Tap(object sender, EventArgs e)
 	{
@@ -430,69 +459,77 @@ public partial class HomePage : ContentPage
 	}
 	private void CapsLock_Tap(object sender, EventArgs e)
 	{
-		if (isCapsLock_Enable == true)
+		try
 		{
-			btnCaps.BorderColor = Colors.Black;
-			btnCaps.BorderWidth = 0;
-			isCapsLock_Enable = false;
-			LetA.Text = "a";
-			LetB.Text = "b";
-			LetC.Text = "c";
-			LetD.Text = "d";
-			LetE.Text = "e";
-			LetF.Text = "f";
-			LetG.Text = "g";
-			LetH.Text = "h";
-			LetI.Text = "i";
-			LetJ.Text = "j";
-			LetK.Text = "k";
-			LetL.Text = "l";
-			LetM.Text = "m";
-			LetN.Text = "n";
-			LetO.Text = "o";
-			LetP.Text = "p";
-			LetQ.Text = "q";
-			LetR.Text = "r";
-			LetS.Text = "s";
-			LetT.Text = "t";
-			LetU.Text = "u";
-			LetV.Text = "v";
-			LetW.Text = "w";
-			LetX.Text = "x";
-			LetY.Text = "y";
-			LetZ.Text = "z";
+			if (isCapsLock_Enable == true)
+			{
+				btnCaps.BorderColor = Colors.Black;
+				btnCaps.BorderWidth = 0;
+				isCapsLock_Enable = false;
+				LetA.Text = "a";
+				LetB.Text = "b";
+				LetC.Text = "c";
+				LetD.Text = "d";
+				LetE.Text = "e";
+				LetF.Text = "f";
+				LetG.Text = "g";
+				LetH.Text = "h";
+				LetI.Text = "i";
+				LetJ.Text = "j";
+				LetK.Text = "k";
+				LetL.Text = "l";
+				LetM.Text = "m";
+				LetN.Text = "n";
+				LetO.Text = "o";
+				LetP.Text = "p";
+				LetQ.Text = "q";
+				LetR.Text = "r";
+				LetS.Text = "s";
+				LetT.Text = "t";
+				LetU.Text = "u";
+				LetV.Text = "v";
+				LetW.Text = "w";
+				LetX.Text = "x";
+				LetY.Text = "y";
+				LetZ.Text = "z";
+			}
+			else
+			{
+				btnCaps.BorderColor = Colors.Black;
+				btnCaps.BorderWidth = 2;
+				isCapsLock_Enable = true;
+				LetA.Text = "A";
+				LetB.Text = "B";
+				LetC.Text = "C";
+				LetD.Text = "D";
+				LetE.Text = "E";
+				LetF.Text = "F";
+				LetG.Text = "G";
+				LetH.Text = "H";
+				LetI.Text = "I";
+				LetJ.Text = "J";
+				LetK.Text = "K";
+				LetL.Text = "L";
+				LetM.Text = "M";
+				LetN.Text = "N";
+				LetO.Text = "O";
+				LetP.Text = "P";
+				LetQ.Text = "Q";
+				LetR.Text = "R";
+				LetS.Text = "S";
+				LetT.Text = "T";
+				LetU.Text = "U";
+				LetV.Text = "V";
+				LetW.Text = "W";
+				LetX.Text = "X";
+				LetY.Text = "Y";
+				LetZ.Text = "Z";
+			}
 		}
-		else
+		catch (Exception ex)
 		{
-			btnCaps.BorderColor = Colors.Black;
-			btnCaps.BorderWidth = 2;
-			isCapsLock_Enable = true;
-			LetA.Text = "A";
-			LetB.Text = "B";
-			LetC.Text = "C";
-			LetD.Text = "D";
-			LetE.Text = "E";
-			LetF.Text = "F";
-			LetG.Text = "G";
-			LetH.Text = "H";
-			LetI.Text = "I";
-			LetJ.Text = "J";
-			LetK.Text = "K";
-			LetL.Text = "L";
-			LetM.Text = "M";
-			LetN.Text = "N";
-			LetO.Text = "O";
-			LetP.Text = "P";
-			LetQ.Text = "Q";
-			LetR.Text = "R";
-			LetS.Text = "S";
-			LetT.Text = "T";
-			LetU.Text = "U";
-			LetV.Text = "V";
-			LetW.Text = "W";
-			LetX.Text = "X";
-			LetY.Text = "Y";
-			LetZ.Text = "Z";
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void OnKeyClicked(object sender, EventArgs e)
@@ -517,6 +554,7 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error !", $"{ex.Message}", "ok");
+			return;
 		}
 	}
 	private void InsertTextAtCursor(string text)
@@ -541,87 +579,135 @@ public partial class HomePage : ContentPage
 	}
 	private void OnKeyClear(object sender, EventArgs e)
 	{
-		SearchEntry.Text = "";
+		try
+		{
+			SearchEntry.Text = "";
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
 	}
 	private void OnKeyCut(object sender, EventArgs e)
 	{
-		cutText = SearchEntry.Text;
-		SearchEntry.Text = "";
+		try
+		{
+			cutText = SearchEntry.Text;
+			SearchEntry.Text = "";
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
 	}
 	private void OnKeyPaste(object sender, EventArgs e)
 	{
-		InsertTextAtCursor(cutText);
+		try
+		{
+			InsertTextAtCursor(cutText);
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
 	}
 	private void OnKeyShift(object sender, EventArgs e)
 	{
-		if (isShift_Pressed == true)
+		try
 		{
-			btnShift.BorderColor = Colors.Black;
-			btnShift.BorderWidth = 0;
-			isShift_Pressed = false;
-			num1.Text = "1";
-			num2.Text = "2";
-			num3.Text = "3";
-			num4.Text = "4";
-			num5.Text = "5";
-			num6.Text = "6";
-			num7.Text = "7";
-			num8.Text = "8";
-			num9.Text = "9";
-			num0.Text = "0";
+			if (isShift_Pressed == true)
+			{
+				btnShift.BorderColor = Colors.Black;
+				btnShift.BorderWidth = 0;
+				isShift_Pressed = false;
+				num1.Text = "1";
+				num2.Text = "2";
+				num3.Text = "3";
+				num4.Text = "4";
+				num5.Text = "5";
+				num6.Text = "6";
+				num7.Text = "7";
+				num8.Text = "8";
+				num9.Text = "9";
+				num0.Text = "0";
+			}
+			else
+			{
+				btnShift.BorderColor = Colors.Black;
+				btnShift.BorderWidth = 2;
+				isShift_Pressed = true;
+				num1.Text = "!";
+				num2.Text = "@";
+				num3.Text = "#";
+				num4.Text = "$";
+				num5.Text = "%";
+				num6.Text = "^";
+				num7.Text = "&";
+				num8.Text = "*";
+				num9.Text = "-";
+				num0.Text = "/";
+			}
 		}
-		else
+		catch (Exception ex)
 		{
-			btnShift.BorderColor = Colors.Black;
-			btnShift.BorderWidth = 2;
-			isShift_Pressed = true;
-			num1.Text = "!";
-			num2.Text = "@";
-			num3.Text = "#";
-			num4.Text = "$";
-			num5.Text = "%";
-			num6.Text = "^";
-			num7.Text = "&";
-			num8.Text = "*";
-			num9.Text = "-";
-			num0.Text = "/";
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void InputChange(object sender, EventArgs e)
 	{
-		DisplayAlert("", "", "Ok");
+		try
+		{
+			DisplayAlert("", "", "Ok");
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
 	}
 	private async void Enter_Button_Clicked(object sender, EventArgs e)
 	{
-		SearchFilter firstitem = Items.FirstOrDefault();
-		if (SearchEntry.Text == "")
+		try
 		{
-			DisplayAlert("Alert!!", "Please Enter Value For Search", "OK");
-			return;
-		}
-		if (firstitem != null)
-		{
-			//btnSearch_Clicked(firstitem.ID);
-			bool ItmFound = await SearchItemBySKU(firstitem.ID.ToString());
-			if (ItmFound == true)
+			SearchFilter firstitem = Items.FirstOrDefault();
+			if (SearchEntry.Text == "")
 			{
-				SizeEvaluation();
+				DisplayAlert("Alert!!", "Please Enter Value For Search", "OK");
+				return;
 			}
-		}
-		else
-		{
-			RefreshButton_Clicked(sender, e);
-			detailSection.IsVisible = false;
-			introSection.IsVisible = true;
-			lblneedprice.Text = "Item not Found!";
-			lblsimplytext.IsVisible = false;
-			if (KeyboardLayout.IsVisible == true)
+			if (firstitem != null)
 			{
-				KeyboardLayout.IsVisible = false;
+				//btnSearch_Clicked(firstitem.ID);
+				bool ItmFound = await SearchItemBySKU(firstitem.ID.ToString());
+				if (ItmFound == true)
+				{
+					SizeEvaluation();
+				}
+			}
+			else
+			{
+				RefreshButton_Clicked(sender, e);
+				detailSection.IsVisible = false;
 				introSection.IsVisible = true;
+				lblneedprice.Text = "Item not Found!";
+				lblsimplytext.IsVisible = false;
+				if (KeyboardLayout.IsVisible == true)
+				{
+					KeyboardLayout.IsVisible = false;
+					introSection.IsVisible = true;
+				}
+				//DisplayAlert("Alert!!", "Item Not Found", "OK");
+				RestartTimer();
 			}
-			//DisplayAlert("Alert!!", "Item Not Found", "OK");
-			RestartTimer(); 
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	#endregion
@@ -644,6 +730,7 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void topleftbtn_click(object sender, EventArgs e)
@@ -656,6 +743,7 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void toprightbtn_click(object sender, EventArgs e)
@@ -668,6 +756,7 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void bottomleftbtn_click(object sender, EventArgs e)
@@ -680,6 +769,7 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void bottomrightbtn_click(object sender, EventArgs e)
@@ -692,13 +782,14 @@ public partial class HomePage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	#endregion
 
 
 	//-----------------------------------------------------------------------------------------------
-	
+
 	#region methods
 	public class SearchFilter
 	{
@@ -1001,7 +1092,7 @@ public partial class HomePage : ContentPage
 			}
 
 			return true;
-			
+
 		}
 		catch (Exception ex)
 		{
@@ -1191,26 +1282,21 @@ public partial class HomePage : ContentPage
 
 	private async void SizeEvaluation()
 	{
-		//await DisplayAlert("Data", $"detailSection.ContentSize.Height: {detailSection.ContentSize.Height}\ndetailSection.Height : {detailSection.Height}", "OK");
-		await Task.Delay(100); // Small delay to allow the layout to stabilize
-		if (detailSection.ContentSize.Height > detailSection.Height)
-		{
-			scrollToBottomButton.IsVisible = true;
-			scrollToTopButton.IsVisible = true;
-		}
-		else
-		{
-			// Disable the button if no scrolling is required
-			scrollToBottomButton.IsVisible = false;
-			scrollToTopButton.IsVisible = false;
-		}
-	}
-
-	private void detailSection_Scrolled(object sender, ScrolledEventArgs e)
-	{
 		try
 		{
-			detailSection_SizeChanged(sender, e);
+			//await DisplayAlert("Data", $"detailSection.ContentSize.Height: {detailSection.ContentSize.Height}\ndetailSection.Height : {detailSection.Height}", "OK");
+			await Task.Delay(100); // Small delay to allow the layout to stabilize
+			if (detailSection.ContentSize.Height > detailSection.Height)
+			{
+				scrollToBottomButton.IsVisible = true;
+				//scrollToTopButton.IsVisible = true;
+			}
+			else
+			{
+				// Disable the button if no scrolling is required
+				scrollToBottomButton.IsVisible = false;
+				scrollToTopButton.IsVisible = false;
+			}
 		}
 		catch (Exception ex)
 		{
@@ -1218,6 +1304,60 @@ public partial class HomePage : ContentPage
 			return;
 		}
 	}
+
+	//private async void detailSection_Scrolled(object sender, ScrolledEventArgs e)
+	//{
+	//	try
+	//	{
+	//		if (bIsScrollBtnClicked)
+	//		{
+	//			return;
+	//		}
+	//		await Task.Delay(100);
+	//		detailSection_SizeChanged(sender, e);
+	//	}
+	//	catch (Exception ex)
+	//	{
+	//		await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+	//		return;
+	//	}
+	//}
+	private async void detailSection_Scrolled(object sender, ScrolledEventArgs e)
+	{
+		try
+		{
+			if (bIsScrollBtnClicked)
+			{
+				return;
+			}
+			// TIMER
+			RestartTimer();
+			// Check if the user has scrolled to the bottom
+			if (Math.Abs(detailSection.ScrollY - (detailSection.ContentSize.Height - detailSection.Height)) < 1)
+			{
+				scrollToBottomButton.IsVisible = false;
+				scrollToTopButton.IsVisible = true;
+			}
+			// Check if the user has scrolled to the top
+			else if (detailSection.ScrollY <= 0)
+			{
+				scrollToTopButton.IsVisible = false;
+				scrollToBottomButton.IsVisible = true;
+			}
+			else
+			{
+				// Show both buttons when not at the top or bottom
+				scrollToBottomButton.IsVisible = true;
+				scrollToTopButton.IsVisible = true;
+			}
+		}
+		catch (Exception ex)
+		{
+			await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
+	}
+
 
 	private void detailSection_SizeChanged(object sender, EventArgs e)
 	{
@@ -1228,11 +1368,9 @@ public partial class HomePage : ContentPage
 
 			if (isVerticalScrollBarVisible)
 			{
-				Console.WriteLine("Vertical scrollbar will be visible.");
-				detailSection.VerticalScrollBarVisibility = ScrollBarVisibility.Always;
 				// Enable the scroll-down button
 				scrollToBottomButton.IsVisible = true;
-				scrollToTopButton.IsVisible = true;
+				scrollToTopButton.IsVisible = false;
 			}
 			else
 			{
@@ -1240,7 +1378,8 @@ public partial class HomePage : ContentPage
 				scrollToBottomButton.IsVisible = false;
 				scrollToTopButton.IsVisible = false;
 			}
-		} catch(Exception ex)
+		}
+		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
 			return;
@@ -1251,12 +1390,19 @@ public partial class HomePage : ContentPage
 	{
 		try
 		{
+			bIsScrollBtnClicked = true;
 			// Scroll to the top of the content
 			await detailSection.ScrollToAsync(0, 0, true);
+			scrollToTopButton.IsVisible = false;
+			scrollToBottomButton.IsVisible = true;
+			bIsScrollBtnClicked = false;
+			// TIMER
+			RestartTimer();
 		}
 		catch (Exception ex)
 		{
 			await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 
@@ -1264,12 +1410,19 @@ public partial class HomePage : ContentPage
 	{
 		try
 		{
+			bIsScrollBtnClicked = true;
 			// Scroll to the bottom of the content
 			await detailSection.ScrollToAsync(0, detailSection.ContentSize.Height, true);
+			scrollToBottomButton.IsVisible = false;
+			scrollToTopButton.IsVisible = true;
+			bIsScrollBtnClicked = false;
+			// TIMER
+			RestartTimer();
 		}
 		catch (Exception ex)
 		{
 			await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 

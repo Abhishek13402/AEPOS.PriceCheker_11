@@ -9,86 +9,109 @@ namespace AEPOS.PriceChecker_11.Pages;
 
 public partial class LoginPage : ContentPage
 {
+	bool isCapsLock_Enable = false;
+	bool isShift_Pressed = false;
+	string cutText;
+	//private bool isLoginKeyboardVisible = false;
+	NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 	public LoginPage()
 	{
 		InitializeComponent();
 		this.Loaded += LoginPageLoaded;
 		entryGUID.Focus();
 	}
-
-	bool isCapsLock_Enable = false;
-	bool isShift_Pressed = false;
-	string cutText;
-	//private bool isLoginKeyboardVisible = false;
-	NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 	public async void CheckInternetAndExit()
 	{
-		if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+		try
 		{
-			bool status = await DisplayAlert("Internet is Required!!", "Please Check your Internet", "Exit", "Cancle");
-			if (status)
+			if (Connectivity.NetworkAccess != NetworkAccess.Internet)
 			{
-				CloseApp();
+				bool status = await DisplayAlert("Internet is Required!!", "Please Check your Internet", "Exit", "Cancle");
+				if (status)
+				{
+					CloseApp();
+				}
+				return;
 			}
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
 			return;
 		}
 	}
 	private void CloseApp()
 	{
+		try
+		{
 #if ANDROID
-    Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+			Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
 #endif
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
 	}
 
 	private async void LoginPageLoaded(object sender, EventArgs e)
 	{
-		if (Globals.InitialLoad == true)
+		try
 		{
-			entryGUID.Focus();
-			try
+			if (Globals.InitialLoad == true)
 			{
-				loadingPage.IsVisible = true;
-				mainLoginPage.IsVisible = false;
-				List<StoreInfo> lststore = await App.cacheDataRepo.ExecuteSelectQueryAsync<StoreInfo>("SELECT * FROM STOREINFO");
-
-				if (lststore.Count > 0 && !string.IsNullOrEmpty(lststore[0].ConnectionString))
+				entryGUID.Focus();
+				try
 				{
-					Globals.SetServer_ConnStr = lststore[0].ConnectionString;
-					Globals.GUID = lststore[0].StoreGUID;
-					Globals.StoreName = lststore[0].StoreName;
-					Globals.Store_ID = lststore[0].StoreID;
-					if (Globals.ConnectToDatabase(true) == false)
+					loadingPage.IsVisible = true;
+					mainLoginPage.IsVisible = false;
+					List<StoreInfo> lststore = await App.cacheDataRepo.ExecuteSelectQueryAsync<StoreInfo>("SELECT * FROM STOREINFO");
+
+					if (lststore.Count > 0 && !string.IsNullOrEmpty(lststore[0].ConnectionString))
 					{
-						Globals.IsServerConnected = false;
-						CheckInternetAndExit();
-						loadingPage.IsVisible = false;
-						mainLoginPage.IsVisible = true;
+						Globals.SetServer_ConnStr = lststore[0].ConnectionString;
+						Globals.GUID = lststore[0].StoreGUID;
+						Globals.StoreName = lststore[0].StoreName;
+						Globals.Store_ID = lststore[0].StoreID;
+						if (Globals.ConnectToDatabase(true) == false)
+						{
+							Globals.IsServerConnected = false;
+							CheckInternetAndExit();
+							loadingPage.IsVisible = false;
+							mainLoginPage.IsVisible = true;
+						}
+						else
+						{
+							await Navigation.PushAsync(new HomePage());
+							loadingPage.IsVisible = false;
+							mainLoginPage.IsVisible = true;
+						}
 					}
 					else
 					{
-						await Navigation.PushAsync(new HomePage());
+						//GuIdPopUp.IsOpen = true;
 						loadingPage.IsVisible = false;
 						mainLoginPage.IsVisible = true;
+						return;
 					}
 				}
-				else
+				catch (Exception ex)
 				{
-					//GuIdPopUp.IsOpen = true;
 					loadingPage.IsVisible = false;
 					mainLoginPage.IsVisible = true;
-					return;
+					await DisplayAlert("Error!", $"{ex.Message}", "OK");
 				}
 			}
-			catch (Exception ex)
+			else
 			{
-				loadingPage.IsVisible = false;
-				mainLoginPage.IsVisible = true;
-				await DisplayAlert("Error!", $"{ex.Message}", "OK");
+				await DisplayAlert("Alert!!", "Globals is not Initialized", "OK");
 			}
 		}
-		else
+		catch (Exception ex)
 		{
-			await DisplayAlert("Alert!!", "Globals is not Initialized", "OK");
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 
@@ -229,6 +252,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 
@@ -246,6 +270,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void Backspace_Tap(object sender, EventArgs e)
@@ -347,6 +372,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void OnKeyClicked(object sender, EventArgs e)
@@ -373,6 +399,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error !", $"{ex.Message}", "ok");
+			return;
 		}
 	}
 	private void InsertTextAtCursor(string text)
@@ -407,6 +434,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void OnKeyCut(object sender, EventArgs e)
@@ -419,6 +447,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void OnKeyPaste(object sender, EventArgs e)
@@ -430,6 +459,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void OnKeyShift(object sender, EventArgs e)
@@ -473,6 +503,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void InputChange(object sender, EventArgs e)
@@ -484,6 +515,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	private void Login_Enter_Button_Clicked(object sender, EventArgs e)
@@ -505,6 +537,7 @@ public partial class LoginPage : ContentPage
 		catch (Exception ex)
 		{
 			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
 		}
 	}
 	#endregion
