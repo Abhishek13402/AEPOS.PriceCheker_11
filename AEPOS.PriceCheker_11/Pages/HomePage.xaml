@@ -129,7 +129,7 @@
                                 <Entry x:Name="SearchEntry" 
                                         Placeholder="Search"
                                         PlaceholderColor="{StaticResource _black}"
-                                        FontSize="{OnIdiom Phone=20, Tablet=30}"
+                                        FontSize="{OnIdiom Phone=20, Tablet=40}"
                                         Margin="0,0,50,0"
                                         MaxLength="30"
                                         TextColor="#333333"
@@ -167,12 +167,12 @@
                                 <VerticalStackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Spacing="10" Padding="0,0,0,20">
 
                                     <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                                        <Label x:Name="lblstrUPC" Text="UPC :" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17"/>
-                                        <Label x:Name="valuestrUPC" Text="" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="17"/>
+                                        <Label x:Name="lblstrUPC" Text="UPC :" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="20"/>
+                                        <Label x:Name="valuestrUPC" Text="" TextColor="{StaticResource _black}" FontAttributes="Bold" FontSize="20"/>
                                     </HorizontalStackLayout>
 
 
-                                    <Label x:Name="lblName" FontFamily="Lobster" Text="" TextColor="{StaticResource _dark_blue}" FontAttributes="Bold" FontSize="{OnIdiom Phone=30, Tablet=40}" 
+                                    <Label x:Name="lblName" FontFamily="Lobster" Text="" TextColor="{StaticResource _dark_blue}" FontAttributes="Bold" FontSize="{OnIdiom Phone=50, Tablet=70}" 
                                               HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
                                     <HorizontalStackLayout x:Name="lblRegPrice" HorizontalOptions="Center" Spacing="5">

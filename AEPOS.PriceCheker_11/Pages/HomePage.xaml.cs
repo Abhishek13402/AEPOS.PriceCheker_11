@@ -99,7 +99,6 @@ public partial class HomePage : ContentPage
 			return;
 		}
 	}
-	#region CheckInternetAndExit
 	public async void CheckInternetAndExit()
 	{
 		try
@@ -121,7 +120,6 @@ public partial class HomePage : ContentPage
 			return;
 		}
 	}
-
 	//private async void btnSearch_Clicked(string UPC)
 	//{
 	//    try
@@ -280,7 +278,8 @@ public partial class HomePage : ContentPage
 			}
 			//btnSearch_Clicked(scannedData);
 			SearchEntry.Text = string.Empty;
-			RestartTimer();
+			//StartTimer();
+			ResetTimer();
 		}
 		catch (Exception ex)
 		{
@@ -305,7 +304,11 @@ public partial class HomePage : ContentPage
 
 				//btnSearch_Clicked(selectedUPC);
 				KeyboardLayout.IsVisible = false;
-				RestartTimer();
+			//StartTimer();
+				ResetTimer();
+				//ScrollToBottomButton_Clicked(sender, e);
+				//await detailSection.ScrollToAsync(0, detailSection.ContentSize.Height, true);
+
 			}
 		}
 		catch (Exception ex)
@@ -314,12 +317,24 @@ public partial class HomePage : ContentPage
 			return;
 		}
 	}
-	private void RestartTimer()
+	private void StartTimer()
 	{
 		try
 		{
-			_eventTimer.Stop();
-			_eventTimer.Start();
+			 _eventTimer.Start();
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"Failed to start timer: {ex.Message}", "OK");
+			return;
+		}
+	}
+	private  void ResetTimer()
+	{
+		try
+		{
+			StopTimer();
+			StartTimer();
 		}
 		catch (Exception ex)
 		{
@@ -327,19 +342,18 @@ public partial class HomePage : ContentPage
 			return;
 		}
 	}
-	//private void StopTimer()
-	//{
-	//	try
-	//	{
-	//		_eventTimer.Stop();
-	//	}
-	//	catch (Exception ex)
-	//	{
-	//		DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-	//		return;
-	//	}
-	//}
-
+	private  void StopTimer()
+	{
+		try
+		{
+			_eventTimer.Stop();
+		}
+		catch (Exception ex)
+		{
+			DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+			return;
+		}
+	}
 	private void RefreshButton_Clicked(object sender, EventArgs e)
 	{
 		try
@@ -366,6 +380,7 @@ public partial class HomePage : ContentPage
 			{
 				introSection.IsVisible = true;
 			}
+			ResetTimer();
 		}
 		catch (Exception ex)
 		{
@@ -388,8 +403,6 @@ public partial class HomePage : ContentPage
 			return;
 		}
 	}
-	#endregion
-
 
 	#region Keyboard methods
 	//keyborad methods-----------------------------------------------------
@@ -701,7 +714,7 @@ public partial class HomePage : ContentPage
 					introSection.IsVisible = true;
 				}
 				//DisplayAlert("Alert!!", "Item Not Found", "OK");
-				RestartTimer();
+				ResetTimer();
 			}
 		}
 		catch (Exception ex)
@@ -786,7 +799,6 @@ public partial class HomePage : ContentPage
 		}
 	}
 	#endregion
-
 
 	//-----------------------------------------------------------------------------------------------
 
@@ -1326,12 +1338,14 @@ public partial class HomePage : ContentPage
 	{
 		try
 		{
+			// TIMER
+			//ResetTimer();
 			if (bIsScrollBtnClicked)
 			{
 				return;
 			}
 			// TIMER
-			RestartTimer();
+			ResetTimer();
 			// Check if the user has scrolled to the bottom
 			if (Math.Abs(detailSection.ScrollY - (detailSection.ContentSize.Height - detailSection.Height)) < 1)
 			{
@@ -1363,21 +1377,27 @@ public partial class HomePage : ContentPage
 	{
 		try
 		{
-			Console.WriteLine($"detailSection.ContentSize.Height: {detailSection.ContentSize.Height}, detailSection.Height: {detailSection.Height}");
-			bool isVerticalScrollBarVisible = detailSection.ContentSize.Height > detailSection.Height;
+			Task.Delay(100);
+			detailSection.ForceLayout(); // Force a layout update
 
-			if (isVerticalScrollBarVisible)
+			Dispatcher.Dispatch(() =>
 			{
-				// Enable the scroll-down button
-				scrollToBottomButton.IsVisible = true;
-				scrollToTopButton.IsVisible = false;
-			}
-			else
-			{
-				// Disable the button if no scrolling is required
-				scrollToBottomButton.IsVisible = false;
-				scrollToTopButton.IsVisible = false;
-			}
+				Console.WriteLine($"detailSection.ContentSize.Height: {detailSection.ContentSize.Height}, detailSection.Height: {detailSection.Height}");
+				bool isVerticalScrollBarVisible = detailSection.ContentSize.Height > detailSection.Height;
+
+				if (isVerticalScrollBarVisible)
+				{
+					// Enable the scroll-down button
+					scrollToBottomButton.IsVisible = true;
+					scrollToTopButton.IsVisible = false;
+				}
+				else
+				{
+					// Disable the button if no scrolling is required
+					scrollToBottomButton.IsVisible = false;
+					scrollToTopButton.IsVisible = false;
+				}
+			});
 		}
 		catch (Exception ex)
 		{
@@ -1385,6 +1405,7 @@ public partial class HomePage : ContentPage
 			return;
 		}
 	}
+
 
 	private async void ScrollToTopButton_Clicked(object sender, EventArgs e)
 	{
@@ -1397,7 +1418,7 @@ public partial class HomePage : ContentPage
 			scrollToBottomButton.IsVisible = true;
 			bIsScrollBtnClicked = false;
 			// TIMER
-			RestartTimer();
+			ResetTimer();
 		}
 		catch (Exception ex)
 		{
@@ -1417,7 +1438,7 @@ public partial class HomePage : ContentPage
 			scrollToTopButton.IsVisible = true;
 			bIsScrollBtnClicked = false;
 			// TIMER
-			RestartTimer();
+			ResetTimer();
 		}
 		catch (Exception ex)
 		{
